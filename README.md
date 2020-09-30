@@ -1,5 +1,7 @@
 # Python Portfolio Tracker
 
+Code Style [![Code Style: Black](https://img.shields.io/badge/code%20style-black-black.svg)](https://github.com/ambv/black)
+
 Track the performance of your portfolio using Python!
 
 ## Problems this repo solves
@@ -20,6 +22,14 @@ Using a simple list of buy/sell positions in a csv file as input, this repo aims
 
 - Data processing and analysis is completed in memory which may not scale we to portfolios with many different positions
 - Stock price data is loaded from `yahooFinance` (using the `ffn` library), the veracity of this data source may not be 100% and it can also take a long time to load data
+
+## Running Tests
+
+PyTest is used for running tests in this project. In order to run tests, navigate to the `tests` directory and run the following command (make sure pytest is installed):
+
+```bash
+pytest
+```
 
 ## Further work
 
