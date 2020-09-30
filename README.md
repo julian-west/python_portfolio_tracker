@@ -1,6 +1,9 @@
 # Python Portfolio Tracker
 
-Code Style [![Code Style: Black](https://img.shields.io/badge/code%20style-black-black.svg)](https://github.com/ambv/black)
+Currently a work in progress...🏗️
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Code Style: Black](https://img.shields.io/badge/code%20style-black-black.svg)](https://github.com/ambv/black)
 
 Track the performance of your portfolio using Python!
 
@@ -25,10 +28,10 @@ Using a simple list of buy/sell positions in a csv file as input, this repo aims
 
 ## Running Tests
 
-PyTest is used for running tests in this project. In order to run tests, navigate to the `tests` directory and run the following command (make sure pytest is installed):
+PyTest is used for running tests in this project. In order to run tests, run the following command in the project directory (make sure libraries in test_requirements.txt are installed):
 
 ```bash
-pytest
+pytest --cov-config=.coveragerc --cov=src
 ```
 
 ## Further work
