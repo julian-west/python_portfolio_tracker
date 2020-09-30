@@ -1,4 +1,4 @@
-﻿date,company,yahoo_ticker,currency,shares_purchased,purchase_price_usd,trading_costs_usd,total_cost_usd,total_shares_held
+﻿date,company,yahoo_ticker,currency,shares_purchased,price_usd,trading_costs_usd,total_usd,total_shares_held
 17/07/2019,Nvidia,NVDA,USD,39,166.67,4.95,6505.08,39
 17/07/2019,Intel,INTC,USD,180,49.91,4.95,8988.75,180
 17/07/2019,Applied Materials,AMAT,USD,268,45.9151,4.95,12310.2,268

@@ -3,8 +3,9 @@
 Currently a work in progress...🏗️
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Code Style: Black](https://img.shields.io/badge/code%20style-black-black.svg)](https://github.com/ambv/black)
+[![Build Status](https://travis-ci.org/julian-west/python_portfolio_tracker.svg?branch=master)](https://travis-ci.org/julian-west/python_portfolio_tracker)
 [![codecov](https://codecov.io/gh/julian-west/python_portfolio_tracker/branch/master/graph/badge.svg)](https://codecov.io/gh/julian-west/python_portfolio_tracker)
+[![Code Style: Black](https://img.shields.io/badge/code%20style-black-black.svg)](https://github.com/ambv/black)
 
 Track the performance of your portfolio using Python!
 

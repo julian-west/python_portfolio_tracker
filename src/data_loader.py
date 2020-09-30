@@ -25,8 +25,6 @@ class StockPriceLoader:
     def __init__(self, input_data_source: str = "../data/raw/purchase_info.csv"):
         self.input_data_source = input_data_source
         self.positions = self.load_positions()
-        self.tickers = list(self.positions["yahoo_ticker"].unique())
-        self.start_date = self.positions["date"].min()
         self.daily_stock_prices = self.get_stock_prices()
 
     def __repr__(self):
@@ -42,6 +40,11 @@ class StockPriceLoader:
                 "errors, save and try again."
             )
 
+        self.tickers = list(
+            positions[positions["yahoo_ticker"] != "cash"]["yahoo_ticker"].unique()
+        )
+        self.start_date = positions["date"].min()
+
         return positions
 
     def get_stock_prices(self):
@@ -52,4 +55,4 @@ class StockPriceLoader:
                 f"There are {len(self.tickers)} tickers in the input data "
                 "source. The maximum number of stocks for this program is 15"
             )
-        return ffn.get(self.tickers, start=self.start_date)
+        return ffn.get(self.tickers, start=self.start_date, clean_tickers=False)
