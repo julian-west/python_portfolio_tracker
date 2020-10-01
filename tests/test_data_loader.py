@@ -1,9 +1,6 @@
 """Tests for src.data_loader"""
 import datetime
-import sys
 import pytest
-
-sys.path.append("..")
 
 from src.data_loader import StockPriceLoader
 
@@ -12,31 +9,21 @@ TICKERS = ["NVDA", "INTC", "AMAT", "MKSI", "SNPS", "SOXX", "8035.T", "BESI.AS"]
 START_DATE = datetime.datetime(2019, 7, 17)
 
 
-@pytest.fixture
-def load_stock_prices():
-    """Load input for testing"""
-    return StockPriceLoader(
-        input_data_source="./tests/example_inputs/example_purchase_info.csv"
-    )
-
-
-def test_repr(load_stock_prices):
+def test_repr(prices):
     """Test __repr__"""
-    assert str(load_stock_prices) == f"Tickers: {TICKERS}\nStart Date: {START_DATE}"
+    assert str(prices) == f"Tickers: {TICKERS}\nStart Date: {START_DATE}"
 
 
-def test_load_positions(load_stock_prices):
+def test_load_positions(prices):
     """Test tickers and start date loaded correctly"""
-    assert load_stock_prices.tickers == TICKERS
-    assert load_stock_prices.start_date == START_DATE
+    assert prices.tickers == TICKERS
+    assert prices.start_date == START_DATE
 
 
-def test_get_stock_prices(load_stock_prices):
+def test_get_stock_prices(prices):
     """Test stock prices loaded correctly"""
-    assert load_stock_prices.daily_stock_prices.isnull().sum().sum() == 0
-    assert (
-        load_stock_prices.daily_stock_prices.index.min() == load_stock_prices.start_date
-    )
+    assert prices.daily_stock_prices.isnull().sum().sum() == 0
+    assert prices.daily_stock_prices.index.min() == prices.start_date
 
 
 def test_bad_input(input_data_source="./tests/example_inputs/missing_data.csv"):
