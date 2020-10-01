@@ -72,6 +72,6 @@ class StockPriceLoader(PositionLoader):
         if len(self.tickers) > 15:
             raise ValueError(
                 f"There are {len(self.tickers)} tickers in the input data "
-                "source. The maximum number of stocks for this program is 15"
+                ". The maximum number of stocks for this program is 15"
             )
         return ffn.get(self.tickers, start=self.start_date, clean_tickers=False)

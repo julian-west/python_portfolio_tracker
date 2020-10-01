@@ -122,7 +122,7 @@ class CalculateCashBalance(PositionLoader):
             cashflows_df["inflows"] - cashflows_df["outflows"]
         ).cumsum()
 
-        return cashflows_df.set_index(0)
+        return cashflows_df.set_index(0).rename_axis("date", axis=0)
 
 
 class Portfolio(StockPriceLoader):
@@ -177,7 +177,7 @@ class Portfolio(StockPriceLoader):
         if stock_property == "daily_value_usd":
             combined_df["cash_balance"] = self.cash.cash_flows["pf_cash_balance"].values
 
-        return combined_df.set_index(0)
+        return combined_df.set_index(0).rename_axis("date", axis=0)
 
     def _calc_daily_portfolio_value(self):
         return self.combined_daily_value.sum(axis=1)
