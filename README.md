@@ -38,6 +38,8 @@ conda create --name python-portfolio-tracker --file requirements.txt
 
 The required data input for this analysis is a `csv` file containing rows for each purchase (or disposal) of a stock in your portfolio. An example is given in the `../data/raw/purchase_info.csv` in this repository.
 
+//TODO Explain: cash inflows/outflows requirements
+
 The required columns are:
 
 - `date`: the date of your transaction
@@ -82,5 +84,6 @@ pytest --cov-config=.coveragerc --cov=src
 
 ## Further work
 
+- account for cash outflows and inflows: calculate adjusted portfolio performance
 - User input through webapp rather than csv/Jupyter Notebooks
 - Account for dividend payments

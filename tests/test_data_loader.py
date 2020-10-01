@@ -4,9 +4,7 @@ import pytest
 
 from src.data_loader import StockPriceLoader
 
-
-TICKERS = ["NVDA", "INTC", "AMAT", "MKSI", "SNPS", "SOXX"]
-START_DATE = datetime.datetime(2019, 7, 17)
+from .conftest import TICKERS, START_DATE
 
 
 def test_repr(prices):

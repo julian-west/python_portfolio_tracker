@@ -1,9 +1,9 @@
 """Test portfolio_value.py classes and functions"""
 
 from src.portfolio_value import CalculateStockValue
-from src.portfolio_value import calc_portfolio_value
+from src.portfolio_value import Portfolio
 
-TICKER = "NVDA"
+from .conftest import EXAMPLE_INPUT_DATA_SOURCE, TICKERS
 
 
 class TestCalculateStockValue:
@@ -16,8 +16,8 @@ class TestCalculateStockValue:
         assert nvda_stock_value.metadata["currency"] == "USD"
 
 
-def test_calc_portfolio_value():
-    """Test calc_portfolio_value"""
-    assert calc_portfolio_value(
-        input_data_source="./tests/example_inputs/example_purchase_info.csv"
-    )
+class TestPortfolio:
+    """Test portfolio class"""
+
+    def test_portfolio(self):
+        assert Portfolio(input_data_source=EXAMPLE_INPUT_DATA_SOURCE)
