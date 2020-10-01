@@ -5,7 +5,7 @@ import pytest
 from src.data_loader import StockPriceLoader
 
 
-TICKERS = ["NVDA", "INTC", "AMAT", "MKSI", "SNPS", "SOXX", "8035.T", "BESI.AS"]
+TICKERS = ["NVDA", "INTC", "AMAT", "MKSI", "SNPS", "SOXX"]
 START_DATE = datetime.datetime(2019, 7, 17)
 
 

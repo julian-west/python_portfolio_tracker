@@ -20,4 +20,3 @@ def nvda_stock_value():
     return CalculateStockValue(
         ticker=EXAMPLE_TICKER, input_data_source=INPUT_DATA_SOURCE
     )
-
