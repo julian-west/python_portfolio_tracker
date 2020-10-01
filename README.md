@@ -9,6 +9,11 @@ Currently a work in progress...🏗️
 
 Track the performance of your portfolio using Python!
 
+## Key Features
+
+- download stock prices and calculate the daily value of your stock positions from a simple input csv of buy/sell positions
+- conduct in-depth analysis of your overall portfolio performance and individual stocks e.g. mean-variance, correlations, max drawdown, position weightings, profit contributions etc.
+
 ## Problems this repo solves
 
 Online broker accounts tend to give generalised statistics about portfolio (or individual stock) performance. It can be difficult to easily download any source data to do your own in depth analysis on the performance of any individual positions and the overall risk return profile of the portfolio. Furthermore, if you have accounts with multiple brokers it is very difficult and time consuming to complete an analysis of all your positions.
@@ -25,12 +30,15 @@ Using a simple list of buy/sell positions in a csv file as input, this repo aims
 
 ## Current limitations
 
+- Only available for USD denominated stocks (I may put in a currency converter in the future)
 - Data processing and analysis is completed in memory which may not scale we to portfolios with many different positions
 - Stock price data is loaded from `yahooFinance` (using the `ffn` library), the veracity of this data source may not be 100% and it can also take a long time to load data
 
 ## Running Tests
 
-PyTest is used for running tests in this project. In order to run tests, run the following command in the project directory (make sure libraries in test_requirements.txt are installed):
+PyTest is used for running tests in this project. If running on Linux or Mac and you have `Make` installed you can run tests using the `make test` command from the Makefile.
+
+Alternatively, tests can be run using `pytest` directly using the following command:
 
 ```bash
 pytest --cov-config=.coveragerc --cov=src
