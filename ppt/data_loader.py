@@ -9,7 +9,23 @@ TODAY = datetime.datetime.now().date()
 
 
 class PositionLoader:
-    """Load positions input data"""
+    """Load positions input data
+
+    Args:
+        input_data_source (str): the location of the input csv. Default value
+            is '../data/raw/purchase_info.csv'
+
+    Attributes:
+        input_data_source (str): location of specified data source
+        positions (pd.DataFrame): dataframe of loaded csv datasource
+        tickers (list): list of unique tickers in the input data source
+        start_date (Timestamp): date of first purchase/cash injection
+        datetime_index (pd.DateTimeIndex): a continuous datetime index starting
+            at 'start_date' running up until today's date.
+        stock_metadata (Dict): a dictionary containing some metadata for each
+            stock. e.g. {'MSFT': {'company': 'Microsoft','currency':'USD'}}
+
+    """
 
     def __init__(self, input_data_source: str = "../data/raw/purchase_info.csv"):
         self.input_data_source = input_data_source
@@ -71,16 +87,14 @@ class StockPriceLoader(PositionLoader):
 
     Args:
         input_data_source (str): location of input csv file containing a list
-            of ticker symbols
+            of ticker symbols. Default is 'data/raw/purchase_info.csv'
 
     Attributes:
-        input_data_source (str): location of specified data source
-        positions (pd.DataFrame): dataframe of loaded csv datasource
-        tickers (list): list of tickers in the input data source
-        start_date (pd.datetime): earlist purchase date in the portfolio
-        daily_stock_prices (pd.DataFrame): dataframe containing the daily
-            closing stock prices for all tickers in self.tickers starting from
-            self.start_date to today's date
+        daily_stock_prices_local_currency (pd.DataFrame): daily adjusted closing
+            stock prices in their local currency from yahoo finance for all
+            tickers present in the input csv
+        daily_stock_prices_usd (pd.DataFrame): daily closing stock prices
+            converted to USD
 
     """
 
@@ -112,7 +126,7 @@ class StockPriceLoader(PositionLoader):
         """Convert local prices to USD"""
 
         # load daily exchange rates
-        xrates = CurrencyLoader(self.datetime_index, self.positions)
+        xrates = CurrencyLoader(self.input_data_source)
 
         currencies_df = pd.DataFrame(self.datetime_index).set_index(0)
         for ticker in self.tickers:
@@ -124,12 +138,28 @@ class StockPriceLoader(PositionLoader):
         return stock_prices_usd
 
 
-class BenchMarkLoader:
-    """Load benchmark indicators"""
+class BenchMarkLoader(PositionLoader):
+    """Load benchmark indicators
 
-    def __init__(self, portfolio_object: object, benchmark_tickers: List):
-        self.start_date = portfolio_object.start_date
-        self.datetime_index = portfolio_object.datetime_index
+    Note currently only supports USD benchmarks
+
+    Args:
+        benchmark_tickers (List): str or list of tickers to load as benchmarks
+        input_data_source (str): location of input datasource
+
+    Attributes:
+        benchmarks (List): list of benchmarks
+        benchmark_stock_prices (pd.DataFrame): dataframe with list of daily
+            stock prices for the benchmarks
+
+    """
+
+    def __init__(
+        self,
+        benchmark_tickers: List,
+        input_data_source: str = "../data/raw/purchase_info.csv",
+    ):
+        super().__init__(input_data_source)
         self.benchmarks = benchmark_tickers
         self.benchmark_stock_prices = self.get_benchmark_prices()
 
@@ -144,8 +174,19 @@ class BenchMarkLoader:
         return bm_prices
 
 
-class CurrencyLoader:
-    """Load currency timeseries"""
+class CurrencyLoader(PositionLoader):
+    """Load currency timeseries
+
+    Args:
+        input_data_source: location of input data source
+
+    Attributes:
+        CURRENCIES (Dict): constant. Dictionary with supported currencies and
+            there corresponding yahoo finance code
+        currencies (list): list of currencies present in the portfolio
+        xrates (pd.DataFrame): dataframe containing the daily exchange rates for
+            each unique currency in the input csv
+    """
 
     # yahoo finance currency codes
     CURRENCIES = {
@@ -155,9 +196,8 @@ class CurrencyLoader:
         "USD": "USD=X",
     }
 
-    def __init__(self, datetime_index, positions):
-        self.datetime_index = datetime_index
-        self.positions = positions
+    def __init__(self, input_data_source: str = "../data/raw/purchase_info.csv"):
+        super().__init__(input_data_source)
         self.currencies = self._get_currencies()
         self.xrates = self._get_xrates()
 

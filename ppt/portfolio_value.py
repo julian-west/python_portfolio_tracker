@@ -9,15 +9,10 @@ class Stocks(PositionLoader):
     """Calculate daily value of stocks
 
     Args:
-        ticker (str): ticker of the stock to analyse
-
+        stock_prices_usd (pd.DataFrame): dataframe with the USD converted daily
+            stock price of each ticker in the input csv
+        input_data_source (str): location of input csv
     Attributes:
-        stock_purchase_info (pd.DataFrame): dataframe with purchase info,
-            filtered for specified ticker
-        daily_stock_price (pd.Series): pd.Series containing stock price for the
-            specified ticker
-        datetime_index (pd.DatetimeIndex): index with list of dates at a daily
-            frequency starting from the first stock price dates to today
         daily_shares_owned (pd.Series): pd.Series with the number of shares
             owned on each date during the datetime_index
         daily_value_usd (pd.Series): pd.Series with the USD value of the
