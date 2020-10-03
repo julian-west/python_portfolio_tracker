@@ -1,5 +1,6 @@
 """Load Stock Prices"""
 import datetime
+from typing import List
 import pandas as pd
 import ffn
 
@@ -74,4 +75,26 @@ class StockPriceLoader(PositionLoader):
                 f"There are {len(self.tickers)} tickers in the input data "
                 ". The maximum number of stocks for this program is 15"
             )
-        return ffn.get(self.tickers, start=self.start_date, clean_tickers=False)
+        stock_prices = ffn.get(self.tickers, start=self.start_date, clean_tickers=False)
+        stock_prices = stock_prices.reindex(self.datetime_index, method="ffill")
+        return stock_prices
+
+
+class BenchMarkLoader:
+    """Load benchmark indicators"""
+
+    def __init__(self, portfolio_object: object, benchmark_tickers: List):
+        self.start_date = portfolio_object.start_date
+        self.datetime_index = portfolio_object.datetime_index
+        self.benchmarks = benchmark_tickers
+        self.benchmark_stock_prices = self.get_benchmark_prices()
+
+    def __repr__(self):
+        return f"Benchmarks: {self.benchmarks}"
+
+    def get_benchmark_prices(self):
+        """Load benchmark daily prices and infill weekend prices"""
+
+        bm_prices = ffn.get(self.benchmarks, start=self.start_date, clean_tickers=False)
+        bm_prices = bm_prices.reindex(self.datetime_index, method="ffill")
+        return bm_prices
