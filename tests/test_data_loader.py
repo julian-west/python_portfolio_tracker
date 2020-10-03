@@ -20,8 +20,8 @@ def test_load_positions(prices):
 
 def test_get_stock_prices(prices):
     """Test stock prices loaded correctly"""
-    assert prices.daily_stock_prices.isnull().sum().sum() == 0
-    assert prices.daily_stock_prices.index.min() == prices.start_date
+    assert prices.daily_stock_prices_usd.isnull().sum().sum() == 0
+    assert prices.daily_stock_prices_usd.index.min() == prices.start_date
 
 
 def test_bad_input(input_data_source="./tests/example_inputs/missing_data.csv"):
