@@ -13,7 +13,7 @@ clean-test:
 	rm -fr htmlcov/
 
 lint:
-	pylint src
+	pylint ppt
 
 test:
-	pytest --cov-config=.coveragerc --cov=src
+	pytest --cov-config=.coveragerc --cov=ppt

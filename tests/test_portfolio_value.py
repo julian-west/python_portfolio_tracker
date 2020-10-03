@@ -1,7 +1,7 @@
 """Test portfolio_value.py classes and functions"""
 
-from src.portfolio_value import CalculateStockValue
-from src.portfolio_value import Portfolio
+from ppt.portfolio_value import CalculateStockValue
+from ppt.portfolio_value import Portfolio
 
 from .conftest import EXAMPLE_INPUT_DATA_SOURCE, TICKERS
 

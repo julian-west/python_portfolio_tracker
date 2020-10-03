@@ -1,8 +1,8 @@
 """Project wide fixtures and constant variables"""
 import datetime
 import pytest
-from src.data_loader import StockPriceLoader
-from src.portfolio_value import CalculateStockValue
+from ppt.data_loader import StockPriceLoader
+from ppt.portfolio_value import CalculateStockValue
 
 EXAMPLE_INPUT_DATA_SOURCE = "./tests/example_inputs/example_purchase_info.csv"
 EXAMPLE_TICKER = "NVDA"

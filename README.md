@@ -1,4 +1,4 @@
-# Python Portfolio Tracker
+# Python Portfolio Tracker (ppt)
 
 Currently a work in progress...🏗️
 
@@ -79,7 +79,7 @@ PyTest is used for running tests in this project. If running on Linux or Mac and
 Alternatively, tests can be run using `pytest` directly using the following command:
 
 ```bash
-pytest --cov-config=.coveragerc --cov=src
+pytest --cov-config=.coveragerc --cov=ppt
 ```
 
 ## Further work

@@ -1,8 +1,8 @@
-"""Tests for src.data_loader"""
+"""Tests for ppt.data_loader"""
 import datetime
 import pytest
 
-from src.data_loader import StockPriceLoader
+from ppt.data_loader import StockPriceLoader
 
 from .conftest import TICKERS, START_DATE
 
