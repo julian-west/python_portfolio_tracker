@@ -5,8 +5,8 @@ from ppt.data_loader import PositionLoader
 from ppt.data_loader import StockPriceLoader
 
 
-class CalculateStockValue(StockPriceLoader):
-    """Calculate individual stock value
+class Stocks(PositionLoader):
+    """Calculate daily value of stocks
 
     Args:
         ticker (str): ticker of the stock to analyse
@@ -18,7 +18,6 @@ class CalculateStockValue(StockPriceLoader):
             specified ticker
         datetime_index (pd.DatetimeIndex): index with list of dates at a daily
             frequency starting from the first stock price dates to today
-        metadata (Dict): dictionary with stock company name, ticker and currency
         daily_shares_owned (pd.Series): pd.Series with the number of shares
             owned on each date during the datetime_index
         daily_value_usd (pd.Series): pd.Series with the USD value of the
@@ -26,49 +25,35 @@ class CalculateStockValue(StockPriceLoader):
     """
 
     def __init__(
-        self, ticker: str, input_data_source: str = "../data/raw/purchase_info.csv"
+        self,
+        stock_prices_usd,
+        input_data_source="../data/raw/purchase_info.csv",
     ):
         super().__init__(input_data_source)
 
-        self.stock_purchase_info = self._get_stock_purchase_info(ticker)
-        self.daily_stock_price = self._get_daily_stock_price(ticker)
-        self.metadata = self._get_stock_metadata()
-        self.daily_shares_owned = self._get_daily_number_of_shares_owned()
-        self.daily_value_usd = self._get_daily_value_usd()
+        self.daily_shares_owned = self._get_daily_shares_owned()
+        self.daily_stocks_value_usd = self._get_daily_stocks_value_usd(stock_prices_usd)
 
-    def _get_stock_purchase_info(self, ticker):
-        """Filter all positions for single stock"""
-        return self.positions[self.positions["yahoo_ticker"] == ticker]
-
-    def _get_daily_stock_price(self, ticker):
-        """Get the daily stock price for the given stock"""
-        return self.daily_stock_prices[ticker]
-
-    def _get_stock_metadata(self):
-        """Get company, ticker and currency metadata for the stock"""
-        return (
-            self.stock_purchase_info[["company", "yahoo_ticker", "currency"]]
-            .iloc[0]
-            .to_dict()
+    def _get_daily_shares_owned(self):
+        stock_positions = self.positions[self.positions["yahoo_ticker"] != "cash"]
+        daily_shares_owned = (
+            stock_positions.pivot(
+                index="date", columns="yahoo_ticker", values="total_shares_held"
+            )
+            .ffill()
+            .fillna(0)
+            .reindex(self.datetime_index)
+            .ffill()
         )
 
-    def _get_daily_number_of_shares_owned(self):
-        """Get timeseries with the number of shares held each day"""
-        num_shares_held = self.stock_purchase_info.set_index("date")[
-            "total_shares_held"
-        ]
-        return num_shares_held.reindex(self.datetime_index).ffill().fillna(0)
+        return daily_shares_owned[self.tickers]
 
-    def _get_daily_value_usd(self):
-        """Get usd daily_value"""
-        return self.daily_stock_price.mul(self.daily_shares_owned).ffill()
-
-    def _get_daily_value_currency(self):
-        """Function to convert non-usd stock prices to usd"""
-        raise NotImplemented
+    def _get_daily_stocks_value_usd(self, stock_prices_usd):
+        """Get the daily value for each stock in usd"""
+        return self.daily_shares_owned * stock_prices_usd
 
 
-class CalculateCashBalance(PositionLoader):
+class Cash(PositionLoader):
     """Calculate daily cash position"""
 
     def __init__(
@@ -76,11 +61,11 @@ class CalculateCashBalance(PositionLoader):
         input_data_source: str = "../data/raw/purchase_info.csv",
     ):
         super().__init__(input_data_source)
-        self.starting_cash_balance = self.get_starting_balance()
+        self.starting_cash_balance = self._get_starting_balance()
         self.cash_flows = self._calc_daily_cash_balance()
         self.daily_cash_balance = self.cash_flows["pf_cash_balance"]
 
-    def get_starting_balance(self):
+    def _get_starting_balance(self):
         """Get starting cash balance"""
         assert self.positions.iloc[0]["action"] == "CASH IN", self.positions.iloc[0][
             "action"
@@ -109,7 +94,7 @@ class CalculateCashBalance(PositionLoader):
                 - row["pf_cash_decrease"]
             )
 
-        cashflows_df = pd.DataFrame(self.datetime_index)
+        cashflows_df = pd.DataFrame(self.datetime_index).set_index(0)
         cashflows_df["inflows"] = _calc_cash_changes(self, flags=["CASH IN"])
         cashflows_df["outflows"] = _calc_cash_changes(self, flags=["CASH OUT"])
         cashflows_df["pf_cash_increase"] = _calc_cash_changes(self, flags=["SELL"])
@@ -122,7 +107,7 @@ class CalculateCashBalance(PositionLoader):
             cashflows_df["inflows"] - cashflows_df["outflows"]
         ).cumsum()
 
-        return cashflows_df.set_index(0).rename_axis("date", axis=0)
+        return cashflows_df.rename_axis("date", axis=0)
 
 
 class Portfolio(StockPriceLoader):
@@ -148,36 +133,16 @@ class Portfolio(StockPriceLoader):
     def __init__(self, input_data_source: str = "../data/raw/purchase_info.csv"):
         super().__init__(input_data_source)
 
-        self.stock_objects = self._create_stock_objects()
-        self.cash = CalculateCashBalance(input_data_source=self.input_data_source)
-        self.combined_daily_value = self._combine_stock_properties(
-            stock_property="daily_value_usd"
-        )
-        self.combined_daily_shares = self._combine_stock_properties(
-            stock_property="daily_shares_owned"
-        )
-        self.daily_portfolio_value = self._calc_daily_portfolio_value()
+        self.stocks = Stocks(self.daily_stock_prices_usd, input_data_source)
+        self.cash = Cash(input_data_source=input_data_source)
+        self.portfolio_value_usd = self._get_daily_portfolio_value_usd()
 
-    def _create_stock_objects(self):
+    def __repr__(self):
+        # //TODO - make an informative repr
+        return str(self.stock_metadata)
 
-        stock_objs_dict = {}
-        for ticker in self.tickers:
-            stock_objs_dict[ticker] = CalculateStockValue(
-                ticker, self.input_data_source
-            )
-
-        return stock_objs_dict
-
-    def _combine_stock_properties(self, stock_property: str):
-        """Combine individual stock properties into single dataframe"""
-        combined_df = pd.DataFrame(self.datetime_index)
-        for ticker, stock_obj in self.stock_objects.items():
-            combined_df[ticker] = getattr(stock_obj, stock_property).values
-
-        if stock_property == "daily_value_usd":
-            combined_df["cash_balance"] = self.cash.cash_flows["pf_cash_balance"].values
-
-        return combined_df.set_index(0).rename_axis("date", axis=0)
-
-    def _calc_daily_portfolio_value(self):
-        return self.combined_daily_value.sum(axis=1)
+    def _get_daily_portfolio_value_usd(self):
+        """Calculate the daily value of the portfolio in USD"""
+        return pd.concat(
+            [self.stocks.daily_stocks_value_usd, self.cash.daily_cash_balance], axis=1
+        ).sum(axis=1)
