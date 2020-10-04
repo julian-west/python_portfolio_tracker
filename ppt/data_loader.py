@@ -36,16 +36,11 @@ class PositionLoader:
         self.stock_metadata = self._extract_metadata()
 
     def _load_positions(self):
-        """Load positions from input_data_source"""
-        positions = pd.read_csv(self.input_data_source, parse_dates=["date"])
+        """Load positions from input_data_source
 
-        if positions.isnull().sum().sum() != 0:
-            raise ValueError(
-                "There is missing data in the input csv. Please fix these "
-                "errors, save and try again."
-            )
-
-        return positions
+        //TODO Data input validation
+        """
+        return pd.read_csv(self.input_data_source, parse_dates=["date"])
 
     def _get_tickers(self):
         """Get list of all unique tickers present in the input data"""
@@ -104,16 +99,11 @@ class StockPriceLoader(PositionLoader):
         self.daily_stock_prices_usd = self._get_stock_prices_usd()
 
     def __repr__(self):
-        return f"Tickers: {self.tickers}\nStart Date: {str(self.start_date)}"
+        return f"Tickers: {sorted(self.tickers)}\nStart Date: {str(self.start_date)}"
 
     def _get_stock_prices_local_currency(self):
         """Load stock prices (in local currency) from list of tickers"""
 
-        if len(self.tickers) > 15:
-            raise ValueError(
-                f"There are {len(self.tickers)} tickers in the input data "
-                ". The maximum number of stocks for this program is 15"
-            )
         stock_prices_local = ffn.get(
             self.tickers, start=self.start_date, clean_tickers=False
         )

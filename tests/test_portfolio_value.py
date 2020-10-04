@@ -2,7 +2,7 @@
 
 from ppt.portfolio_value import Portfolio
 
-from .conftest import EXAMPLE_INPUT_DATA_SOURCE, TICKERS
+from .conftest import EXAMPLE_INPUT_DATA, TICKERS
 
 
 class TestStocks:
@@ -19,4 +19,6 @@ class TestPortfolio:
     """Test portfolio class"""
 
     def test_portfolio(self):
-        assert Portfolio(input_data_source=EXAMPLE_INPUT_DATA_SOURCE)
+        assert Portfolio(
+            input_data_source="/".join([EXAMPLE_INPUT_DATA, "purchase_info.csv"])
+        )
