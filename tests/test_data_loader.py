@@ -90,7 +90,7 @@ class TestBenchmarkLoader:
         load_and_assert_testing_df(
             benchmarks,
             "benchmark_stock_prices",
-            "BenchmarkLoader_benchmark_stock_prices.csv",
+            "BenchMarkLoader_benchmark_stock_prices.csv",
         )
 
 
