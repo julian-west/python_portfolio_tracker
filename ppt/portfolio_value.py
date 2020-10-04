@@ -49,7 +49,17 @@ class Stocks(PositionLoader):
 
 
 class Cash(PositionLoader):
-    """Calculate daily cash position"""
+    """Calculate daily cash position
+
+    Args:
+        input_data_source: location of input data
+
+    Attributes:
+        starting_cash_balance (int): original cash injected into portfolio
+        cash_flows (pd.DataFrame): dataframe containing cash flow information
+        daily_cash_balance (pd.Series): daily cash balance
+
+    """
 
     def __init__(
         self,
@@ -57,7 +67,7 @@ class Cash(PositionLoader):
     ):
         super().__init__(input_data_source)
         self.starting_cash_balance = self._get_starting_balance()
-        self.cash_flows = self._calc_daily_cash_balance()
+        self.cash_flows = self._calc_cash_flows()
         self.daily_cash_balance = self.cash_flows["pf_cash_balance"]
 
     def _get_starting_balance(self):
@@ -67,9 +77,11 @@ class Cash(PositionLoader):
         ]
         return self.positions.iloc[0]["total_usd"]
 
-    def _calc_daily_cash_balance(self):
-        def _calc_cash_changes(self, flags):
+    def _calc_cash_flows(self):
+        """Calculate portfolio cashflows"""
 
+        def _calc_cash_changes(self, flags):
+            """Calculate changes in cash position from buying/selling"""
             filtered_positions = self.positions[
                 self.positions["action"].isin(flags)
             ].set_index("date")
@@ -82,6 +94,7 @@ class Cash(PositionLoader):
             )
 
         def _calc_portfolio_cash_change(row):
+            """Calculate change in portfolio cash"""
             return (
                 row["inflows"]
                 + row["pf_cash_increase"]
@@ -90,10 +103,13 @@ class Cash(PositionLoader):
             )
 
         cashflows_df = pd.DataFrame(self.datetime_index).set_index(0)
-        cashflows_df["inflows"] = _calc_cash_changes(self, flags=["CASH IN"])
-        cashflows_df["outflows"] = _calc_cash_changes(self, flags=["CASH OUT"])
-        cashflows_df["pf_cash_increase"] = _calc_cash_changes(self, flags=["SELL"])
-        cashflows_df["pf_cash_decrease"] = _calc_cash_changes(self, flags=["BUY"])
+
+        for col, flag in zip(
+            ["inflows", "outflows", "pf_cash_increase", "pf_cash_decrease"],
+            ["CASH IN", "CASH OUT", "SELL", "BUY"],
+        ):
+            cashflows_df[col] = _calc_cash_changes(self, flags=[flag])
+
         cashflows_df["cash_balance_change"] = cashflows_df.apply(
             _calc_portfolio_cash_change, axis=1
         )
@@ -108,20 +124,13 @@ class Cash(PositionLoader):
 class Portfolio(StockPriceLoader):
     """Portfolio stats and info
 
-    Inherits attributes from `StockPriceLoader` and `CalculateStockValue`
-
     Args:
         input_data_source (str): location of csv with purchase info
 
     Attributes:
-        stock_objects (Dict): dictionary with stock specific information (see
-            CalculateStockValue for all attributes)
-        combined_daily_value (pd.DataFrame): single dataframe with a column for
-            each ticker showing the total value of the position in the stock for
-            any given day
-        combined_daily_shares (pd.DataFrame): single dataframe with a column for
-            each ticker showing the total number of shares owned for each stock
-            on any given day
+        stocks (object): Stock prices and daily stock values. See `Stocks` class
+        cash (object): Cash balance. See `Cash` class
+        portfolio_value_usd (pd.Series): daily total portfolio value
 
     """
 
