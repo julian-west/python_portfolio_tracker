@@ -4,7 +4,7 @@ import pytest
 
 from ppt.data_loader import PositionLoader
 from ppt.data_loader import StockPriceLoader
-from ppt.data_loader import BenchMarkLoader
+from ppt.data_loader import BenchmarkLoader
 from ppt.data_loader import CurrencyLoader
 
 EXAMPLE_INPUT_DATA = "./tests/example_inputs/"
@@ -36,7 +36,7 @@ def stock_prices():
 @pytest.fixture
 def benchmarks():
     """Load benchmarks for testing"""
-    return BenchMarkLoader(
+    return BenchmarkLoader(
         input_data_source="".join(
             [EXAMPLE_INPUT_DATA, "purchase_info.csv"],
         ),

@@ -3,6 +3,7 @@ import pandas as pd
 
 from ppt.data_loader import PositionLoader
 from ppt.data_loader import StockPriceLoader
+from ppt.data_loader import BenchmarkLoader
 
 
 class Stocks(PositionLoader):
@@ -69,6 +70,7 @@ class Cash(PositionLoader):
         self.starting_cash_balance = self._get_starting_balance()
         self.cash_flows = self._calc_cash_flows()
         self.daily_cash_balance = self.cash_flows["pf_cash_balance"]
+        self.external_cashflows = self.cash_flows["external_cashflows"]
 
     def _get_starting_balance(self):
         """Get starting cash balance"""
@@ -131,6 +133,7 @@ class Portfolio(StockPriceLoader):
         stocks (object): Stock prices and daily stock values. See `Stocks` class
         cash (object): Cash balance. See `Cash` class
         portfolio_value_usd (pd.Series): daily total portfolio value
+        benchmark (object): Benchmark stock prices
 
     """
 
@@ -140,6 +143,8 @@ class Portfolio(StockPriceLoader):
         self.stocks = Stocks(self.daily_stock_prices_usd, input_data_source)
         self.cash = Cash(input_data_source=input_data_source)
         self.portfolio_value_usd = self._get_daily_portfolio_value_usd()
+        self.profit = self._get_running_profit()
+        self.benchmark = None
 
     def __repr__(self):
         # //TODO - make an informative repr
@@ -150,3 +155,11 @@ class Portfolio(StockPriceLoader):
         return pd.concat(
             [self.stocks.daily_stocks_value_usd, self.cash.daily_cash_balance], axis=1
         ).sum(axis=1)
+
+    def _get_running_profit(self):
+        """Calculate profit"""
+        return self.portfolio_value_usd - self.cash.external_cashflows
+
+    def add_benchmark(self, benchmark_tickers):
+        """Add a benchmark"""
+        self.benchmark = BenchmarkLoader(benchmark_tickers, self.input_data_source)

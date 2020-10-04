@@ -128,7 +128,7 @@ class StockPriceLoader(PositionLoader):
         return stock_prices_usd
 
 
-class BenchMarkLoader(PositionLoader):
+class BenchmarkLoader(PositionLoader):
     """Load benchmark indicators
 
     Note currently only supports USD benchmarks

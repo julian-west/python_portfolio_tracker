@@ -14,6 +14,8 @@ class TestStocks:
 class TestCash:
     """Test Cash class"""
 
+    pass
+
 
 class TestPortfolio:
     """Test portfolio class"""

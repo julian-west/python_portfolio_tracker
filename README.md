@@ -7,6 +7,8 @@
 
 Track the performance of your portfolio using Python!
 
+Alpha release - please let me know if you find any :bug:
+
 ---
 **Currently under construction... :construction::building_construction:**
 
@@ -32,6 +34,7 @@ Progress:
 
 - simple input format: list of buy and sell positions in csv format. 
 - automatically calculate the daily value of your portfolio, your stock positions and cash balance from the input list of buy/sell actions
+- adjust for regular cash injections (e.g. monthly contributions to the portfolio)
 - compatible for US, EU, JP and GB listed stocks
 - quickly conduct an in-depth analysis of your overall portfolio performance or individual stocks using inbuilt functions (e.g. mean-variance, correlations, max drawdown, position weightings, profit contributions etc.) or use the base raw data for your own further analysis
 
@@ -40,6 +43,8 @@ Progress:
 Online brokerage accounts only provide high level 'one-size-fits-all' metrics on your portfolio performance and (generally) do not give you access to the underlying raw data.
 
 This makes it difficult to run custom analyses on your positions and understand the true performance of the portfolio, your overall stock/cash positions and any potential risks (correlations) between individual stock positions. This is especially a problem if you have multiple brokeage accounts.
+
+Furthermore, most other Python libraries do not account for regular cash injections (e.g. monthly contributions to the portfolio). This makes it hard to evaluate the true performance of your portfolio.
 
 Using a simple list of buy/sell positions in a csv file as input, this repo aims to allow the user to efficiently collect daily stock price data, calculate the value of their portfolio over time and use the raw data to complete custom in depth analysis of positions (e.g mean-variance, correlations, etc.).
 

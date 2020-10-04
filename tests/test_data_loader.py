@@ -83,14 +83,14 @@ class TestStockPriceLoader:
         )
 
 
-class TestBenchMarkLoader:
+class TestBenchmarkLoader:
     """Test benchmark loader"""
 
     def test_benchmark_stock_prices(self, benchmarks):
         load_and_assert_testing_df(
             benchmarks,
             "benchmark_stock_prices",
-            "BenchMarkLoader_benchmark_stock_prices.csv",
+            "BenchmarkLoader_benchmark_stock_prices.csv",
         )
 
 

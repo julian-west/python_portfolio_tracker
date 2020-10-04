@@ -1,0 +1,26 @@
+# Figure Properties
+figure.figsize: 12,5
+
+# Font Properties
+font.family: monospace
+
+# Legend Properties
+legend.framealpha: 1
+legend.frameon :False
+
+# Axis Properties
+axes.labelpad:10
+axes.spines.right:False
+axes.spines.top: False
+axes.edgecolor: 777777 #777777
+axes.labelcolor: 777777 #777777
+axes.titlepad: 20
+axes.titlesize:16
+
+xtick.color: 383838 #383838
+ytick.color: 383838 #383838
+
+# colour scheme
+
+##EF476F #FCA311 #0EAD69 #118AB2 #E24A33 #777777 #988ED5
+axes.prop_cycle: cycler('color', ['EF476F', 'FCA311','0EAD69','118AB2','E24A33','777777','988ED5'])
