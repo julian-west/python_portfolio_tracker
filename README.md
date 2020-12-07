@@ -15,18 +15,18 @@ Alpha release - please let me know if you find any :bug:
 Progress:
 
 - Data loading
-    - Load positions from input csv containing BUY/SELL actions ✅
-    - Load stock prices for positions in input csv ✅
-    - Add support for :us:, :gb:, :eu: and :jp: stocks ✅
-    - Convert foriegn stocks to USD to calculate total portfolio value in USD ✅
-    - Load dividend payments for each stock from :white_large_square:
-    - Robust data input validation :white_large_square:
+    - [x] Load positions from input csv containing BUY/SELL actions
+    - [x] Load stock prices for positions in input csv
+    - [x] Add support for :us:, :gb:, :eu: and :jp: stocks
+    - [x] Convert foriegn stocks to USD to calculate total portfolio value in USD
+    - [ ] Load dividend payments for each stock
+    - [ ] Robust data input validation
 
 - Portfolio Analysis
-    - Calculate time-weighted portfolio performance :white_large_square:
-    - Calculate total return for each holding :white_large_square:
-    - Calculate overall portfolio performance metrics :white_large_square:
-    - Calculate individual stock performance metrics :white_large_square:
+    - [ ] Calculate time-weighted portfolio performance
+    - [ ] Calculate total return for each holding
+    - [ ] Calculate overall portfolio performance metrics
+    - [ ] Calculate individual stock performance metrics
 
 ---
 
