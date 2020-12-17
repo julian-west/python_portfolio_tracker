@@ -32,7 +32,7 @@ Progress:
 
 ## Key Features
 
-- simple input format: list of buy and sell positions in csv format. 
+- simple input format: list of buy and sell positions in csv format 
 - automatically calculate the daily value of your portfolio, your stock positions and cash balance from the input list of buy/sell actions
 - adjust for regular cash injections (e.g. monthly contributions to the portfolio)
 - compatible for US, EU, JP and GB listed stocks
