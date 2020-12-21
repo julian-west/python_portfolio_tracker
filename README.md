@@ -38,7 +38,7 @@ Progress:
 - compatible for US, EU, JP and GB listed stocks
 - quickly conduct an in-depth analysis of your overall portfolio performance or individual stocks using inbuilt functions (e.g. mean-variance, correlations, max drawdown, position weightings, profit contributions etc.) or use the base raw data for your own further analysis
 
-## Problems this repo aims to solves
+## Problems this library aims to solves
 
 Online brokerage accounts only provide high level 'one-size-fits-all' metrics on your portfolio performance and (generally) do not give you access to the underlying raw data.
 
