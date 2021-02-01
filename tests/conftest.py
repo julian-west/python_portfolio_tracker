@@ -1,11 +1,14 @@
 """Project wide fixtures and constant variables"""
 import datetime
+
 import pytest
 
-from ppt.data_loader import PositionLoader
-from ppt.data_loader import StockPriceLoader
-from ppt.data_loader import BenchmarkLoader
-from ppt.data_loader import CurrencyLoader
+from ppt.data_loader import (
+    BenchmarkLoader,
+    CurrencyLoader,
+    PositionLoader,
+    StockPriceLoader,
+)
 
 EXAMPLE_INPUT_DATA = "./tests/example_inputs/"
 TEST_DATAFRAMES = "".join([EXAMPLE_INPUT_DATA, "test_dataframes/"])

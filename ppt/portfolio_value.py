@@ -1,9 +1,7 @@
 """Calculate Portfolio Daily Value"""
 import pandas as pd
 
-from ppt.data_loader import PositionLoader
-from ppt.data_loader import StockPriceLoader
-from ppt.data_loader import BenchmarkLoader
+from ppt.data_loader import BenchmarkLoader, PositionLoader, StockPriceLoader
 
 
 class Stocks(PositionLoader):
