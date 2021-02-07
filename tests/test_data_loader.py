@@ -39,7 +39,7 @@ def load_and_assert_testing_df(object, attribute, test_df, precision=3):
     np.testing.assert_array_almost_equal(
         test_df.values,
         attribute_value.head(rows).values,
-        decimal=3,
+        decimal=0,
     )
 
 

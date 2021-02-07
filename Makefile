@@ -13,6 +13,8 @@ clean-test:
 	rm -fr htmlcov/
 
 lint:
+	isort .
+	mypy
 	pylint ppt
 
 test:
