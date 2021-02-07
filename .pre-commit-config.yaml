@@ -5,6 +5,7 @@ repos:
     - id: trailing-whitespace
     - id: mixed-line-ending
     - id: check-added-large-files
+    - id: end-of-file-fixer
 
 - repo: local
   hooks:
