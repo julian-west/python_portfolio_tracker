@@ -123,9 +123,7 @@ class StockPriceLoader(PositionLoader):
             cur = self.stock_metadata[ticker]["currency"]
             currencies_df[ticker] = xrates.xrates[cur]
 
-        stock_prices_usd = self.daily_stock_prices_local_currency * currencies_df
-
-        return stock_prices_usd
+        return self.daily_stock_prices_local_currency * currencies_df
 
 
 class BenchmarkLoader(PositionLoader):
