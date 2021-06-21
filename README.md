@@ -7,8 +7,6 @@
 
 Track the performance of your portfolio using Python!
 
-Alpha release - please let me know if you find any :bug:
-
 ---
 **Currently under construction... :construction::building_construction:**
 
