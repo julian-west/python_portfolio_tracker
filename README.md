@@ -127,6 +127,7 @@ Example input format:
 - release as a PyPI library
 - User input through webapp rather than csv/Jupyter Notebooks
 - Account for dividend payments
+- Link to a dashboard to visualise the analysis
 
 ---
 
