@@ -1,9 +1,10 @@
 """Load Stock Prices"""
 import datetime
 from typing import List
+
+import ffn
 import pandas as pd
 import pandas_datareader as web
-import ffn
 
 TODAY = datetime.datetime.now().date()
 

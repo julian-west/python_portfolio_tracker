@@ -2,7 +2,7 @@
 
 from ppt.portfolio_value import Portfolio
 
-from .conftest import EXAMPLE_INPUT_DATA, TICKERS
+from .conftest import EXAMPLE_INPUT_DATA
 
 
 class TestStocks:

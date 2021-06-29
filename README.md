@@ -30,7 +30,7 @@ Progress:
 
 ## Key Features
 
-- simple input format: list of buy and sell positions in csv format 
+- simple input format: list of buy and sell positions in csv format
 - automatically calculate the daily value of your portfolio, your stock positions and cash balance from the input list of buy/sell actions
 - adjust for regular cash injections (e.g. monthly contributions to the portfolio)
 - compatible for US, EU, JP and GB listed stocks
@@ -95,7 +95,7 @@ The required columns are:
 ### Key Input Requirements
 
 - cash inflows and outflows (new cash injected into the portfolio and cash removed from the portfolio) should be recorded using `CASH IN` and `CASH OUT` labels in the `action` column
-- the first entry of the input csv should be a `CASH IN` action which denotes the starting cash balance (before any stocks were bought)  
+- the first entry of the input csv should be a `CASH IN` action which denotes the starting cash balance (before any stocks were bought)
 
 Example input format:
 

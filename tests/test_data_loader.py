@@ -3,7 +3,7 @@
 import numpy as np
 import pandas as pd
 
-from .conftest import TICKERS, START_DATE, TEST_DATAFRAMES, CURRENCIES
+from .conftest import CURRENCIES, START_DATE, TEST_DATAFRAMES, TICKERS
 
 
 def load_and_assert_testing_df(object, attribute, test_df, precision=3):
